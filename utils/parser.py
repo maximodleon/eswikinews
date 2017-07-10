@@ -98,6 +98,12 @@ class Parser:
         return parsed_text
 
     def remove_extra_characters(self, text):
+        """
+         Remueve caracteres no deseados
+
+        :param text: Texto con los caracteres no deseados
+        :return:  Texto limpio, sin caracteres
+        """
         parsed_text = text
         parsed_text = parsed_text.replace("[", "")
         parsed_text = parsed_text.replace("]", "")
@@ -137,17 +143,17 @@ class Parser:
 
     def process_page_tag(self, root):
         pages = root.findall(self.tag_prefix + self.page_tag)
-        count = 0
         for page in pages:
             if self.is_news_article(page.find(self.tag_prefix + self.title_tag).text):
-                count = count + 1
                 self.parse_text(page.find(self.tag_prefix + self.revision_tag).find(self.tag_prefix
                                                                                     + self.text_tag).text)
-                if count == 80:
-                    break
 
     def parse_text(self, text):
-
+        """
+         Metodo para limpiar el texto
+        :param text: texto a limpiar
+        :return:  texto limpio
+        """
         text = self.parse_archivo(text)
         text = self.parse_foto(text)
         text = self.parse_by_line(text)
